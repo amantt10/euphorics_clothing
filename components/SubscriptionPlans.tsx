@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from 'react';
 import { Check } from 'lucide-react';
 
@@ -79,80 +79,121 @@ const SubscriptionPlans: React.FC = () => {
   };
 
   return (
-    <div className="py-16 px-4 sm:px-6 lg:px-8 bg-black min-h-screen">
+    <div className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Choose Your Plan
           </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Select the perfect plan for your team's needs. Upgrade or downgrade at any time.
           </p>
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 justify-center items-stretch">
-          {plans.map((plan, index) => (
-            <div key={plan.name} className="flex flex-col items-center">
-              {/* Popular Badge Above Card */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 justify-items-center">
+          {plans.map((plan) => (
+            <div
+              key={plan.name}
+              className={`relative bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl w-full max-w-sm ${
+                plan.popular 
+                  ? 'ring-2 ring-blue-500 scale-105 md:scale-110' 
+                  : 'hover:scale-105'
+              }`}
+            >
+              {/* Popular Badge */}
               {plan.popular && (
-                
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <span className="bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-medium">
+                    Most Popular
+                  </span>
+                </div>
               )}
-              <div
-                className={`relative bg-zinc-900 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 flex flex-col h-full border border-zinc-800 w-full ${
-                  plan.popular 
-                    ? 'ring-2 ring-[linear-gradient(90deg,_#0d47a1_0%,_#1976d2_40%,_#8e24aa_100%)] scale-105 z-10' 
-                    : 'hover:scale-105'
-                }`}
-              >
-                {/* Plan Content */}
-                <div className="p-8 flex flex-col h-full">
-                  <h3 className="text-2xl font-extrabold text-white mb-2 text-center font-sans tracking-tight">{plan.name}</h3>
-                  <div className="flex items-end justify-center mb-4">
-                    <span className="text-4xl font-black text-white font-sans tracking-tight drop-shadow-lg">{plan.price}</span>
-                    <span className="text-lg text-gray-400 ml-1 font-medium font-sans">{plan.period}</span>
+
+              <div className="p-8 h-full flex flex-col">
+                {/* Plan Header */}
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                    {plan.name}
+                  </h3>
+                  <p className="text-gray-600 mb-6">
+                    {plan.description}
+                  </p>
+                  <div className="flex items-baseline justify-center">
+                    <span className="text-5xl font-bold text-gray-900">
+                      {plan.price}
+                    </span>
+                    <span className="text-xl text-gray-600 ml-1">
+                      {plan.period}
+                    </span>
                   </div>
-                  <p className="text-gray-300 mb-6 text-center font-sans text-base font-normal">{plan.description}</p>
-                  <ul className="mb-8 space-y-3 flex-1">
-                    {plan.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center">
-                        <span
-                          className={`mr-3 rounded-full p-1 flex items-center justify-center ${
-                            feature.included
-                              ? 'bg-gradient-to-r from-[#0d47a1] via-[#1976d2] to-[#8e24aa] text-white shadow-md'
-                              : 'bg-zinc-800 text-zinc-600'
-                          }`}
-                        >
-                          <Check size={18} />
-                        </span>
-                        <span
-                          className={`$ {
-                            feature.included ? 'text-white' : 'text-zinc-500 line-through'
-                          }`}
-                        >
-                          {feature.name}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button
-                    className={`w-full py-3 px-6 rounded-lg font-extrabold transition-colors duration-200 mt-auto tracking-wide font-sans text-lg shadow-xl ${
-                      plan.popular
-                        ? 'bg-gradient-to-r from-[#0d47a1] via-[#1976d2] to-[#8e24aa] text-white hover:from-[#0d47a1] hover:to-[#6d1b7b] border-0'
-                        : 'bg-zinc-800 text-white hover:bg-zinc-700 border border-zinc-700'
-                    }`}
-                    onClick={() => handleGetStarted(plan.name)}
-                  >
-                    {plan.buttonText}
-                  </button>
+                </div>
+
+                {/* Get Started Button */}
+                <button
+                  onClick={() => handleGetStarted(plan.name)}
+                  className={`w-full py-3 px-6 rounded-lg font-semibold text-lg transition-all duration-200 mb-8 ${
+                    plan.popular
+                      ? 'bg-blue-500 hover:bg-blue-600 text-white shadow-lg hover:shadow-xl'
+                      : 'bg-gray-900 hover:bg-gray-800 text-white'
+                  }`}
+                >
+                  {plan.buttonText}
+                </button>
+
+                {/* Features List */}
+                <div className="space-y-4 flex-grow">
+                  <h4 className="font-semibold text-gray-900 text-lg mb-4">
+                    What's included:
+                  </h4>
+                  {plan.features.map((feature, featureIndex) => (
+                    <div
+                      key={featureIndex}
+                      className="flex items-center space-x-3"
+                    >
+                      <div
+                        className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center ${
+                          feature.included
+                            ? 'bg-green-100 text-green-600'
+                            : 'bg-gray-100 text-gray-400'
+                        }`}
+                      >
+                        {feature.included ? (
+                          <Check className="w-3 h-3" />
+                        ) : (
+                          <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
+                        )}
+                      </div>
+                      <span
+                        className={`text-sm ${
+                          feature.included
+                            ? 'text-gray-900'
+                            : 'text-gray-500'
+                        }`}
+                      >
+                        {feature.name}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
           ))}
         </div>
+
+        {/* Bottom CTA */}
+        <div className="text-center mt-16">
+          <p className="text-gray-600 mb-4">
+            Need a custom solution? 
+          </p>
+          <button className="text-blue-500 hover:text-blue-600 font-semibold underline">
+            Contact our sales team
+          </button>
+        </div>
       </div>
     </div>
-    );
-}
+  );
+};
+
 export default SubscriptionPlans;

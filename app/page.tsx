@@ -8,6 +8,7 @@ import Dashboard from "@/components/Dashboard";
 =======
 import { Contact } from "@/components/Contact";
 import { Hero } from "@/components/Hero";
+import ModernPricing from "@/components/ModernPricing";
 import { NavbarDemo } from "@/components/Navbar";
 import { Services } from "@/components/Services";
 import SubscriptionPlans from "@/components/SubscriptionPlans";
